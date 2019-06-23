@@ -1,0 +1,57 @@
+
+.daytitle{
+
+    color:white;
+    text-align: center;
+}
+.bgsun{
+    background: gray;
+}
+.bgmon{
+    background: gray;
+}
+.bgsat{
+    background: gray;
+}
+
+.day-0{
+    
+}
+.day-6{
+    
+}
+
+.day{
+    font-size: 12px;
+    height:65px;
+}
+.day-today-Y{
+}
+.dayin-Y{
+}
+.dayin-N{
+    background: #cccccc;
+    color:#888888;
+}
+
+.status-N{
+    width:20px;
+    margin-top: 15px;
+}
+.status-Y{
+    width:18px;
+}
+
+.datenumber{
+    position: absolute;
+    margin-top: -20px;
+    margin-left:10px;
+    font-size: 12px;
+}
+.superv{
+    position: fixed;
+    width:100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+}
