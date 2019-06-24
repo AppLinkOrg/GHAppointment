@@ -44,8 +44,8 @@ export class HomePage extends AppBase {
     this.currentYear = (new Date()).getFullYear();
     this.loadCalendar();
 
-    for(var i=1900;i<(new Date()).getFullYear();i++){
-      this.year.push(i);
+    for(var i=(new Date()).getFullYear();i>1900;i--){
+      //this.year.push(i);
     }
   }
   
@@ -54,7 +54,7 @@ export class HomePage extends AppBase {
   date="";
   name="";
   birth="1970";
-  sexual="";
+  sexual="man";
   mobile="";
   memo="";
   doctorlist:[];
@@ -120,13 +120,10 @@ export class HomePage extends AppBase {
 
     var today = (new Date());
     var target = new Date(this.currentYear, this.currentMonth + am, 1);
-    if (target.getTime() > today.getTime()) {
-
-    } else {
-      this.currentYear = target.getFullYear();
-      this.currentMonth = target.getMonth();
-      this.loadCalendar();
-    }
+    
+    this.currentYear = target.getFullYear();
+    this.currentMonth = target.getMonth();
+    this.loadCalendar();
   }
 
   selectdate(d){
@@ -144,7 +141,8 @@ export class HomePage extends AppBase {
     this.step=2;
   }
   
-  submitorder(){
+  submitorder(form){
+	  console.log(form);
     this.showConfirm("是否确认提交信息？",(e)=>{
       if(e==true){
         this.submitApi.submit({
@@ -160,5 +158,13 @@ export class HomePage extends AppBase {
         });
       }
     });
+  }
+  
+  changeName(e){
+	  console.log(e);
+  }
+  
+  diaoni(){
+	  alert('diaoni');
   }
 }

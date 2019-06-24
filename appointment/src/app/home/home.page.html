@@ -90,42 +90,39 @@
       <div style="margin-top:40px;color:#888888;font-size: 12px;">
         预约人姓名 <span style="color:red">必填</span>
       </div>
-      <div
-        style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 12px;">
-        <ion-input placeholder="请输入预约人姓名" maxlength='20' [(ngModel)]='name'></ion-input>
+      <div  style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 12px;">
+        <ion-input placeholder="请输入预约人姓名" name='name' [(ngModel)]='name'></ion-input>
       </div>
       <div style="margin-top:40px;color:#888888;font-size: 12px;">
-        预约人性别 <span style="color:red">必填</span>
+        预约人性别 
       </div>
-      <div
-        style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 0px;">
-        <ion-select cancelText='取消' okText='确定' placeholder="请选择预约人性别" [(ngModel)]='sexual'>
-          <ion-select-option value="man">男性</ion-select-option>
-          <ion-select-option value="woman">女性</ion-select-option>
-        </ion-select>
+      <div class='flex-row flex-center'  style="margin-top:10px;">
+        <div (click)='sexual="man"'>
+			<img [src]='uploadpath+"resource/"+res.check' *ngIf='sexual=="man"' style='width:20px;height:20px;' />
+			<img [src]='uploadpath+"resource/"+res.uncheck' *ngIf='sexual=="woman"' style='width:20px;height:20px;' />
+		</div>
+		<div style='padding-left:20px;' (click)='sexual="man"'>
+			男性
+		</div>
+        <div  style='margin-left:40px;' (click)='sexual="woman"'>
+			<img [src]='uploadpath+"resource/"+res.check' *ngIf='sexual=="woman"' style='width:20px;height:20px;' />
+			<img [src]='uploadpath+"resource/"+res.uncheck' *ngIf='sexual=="man"' style='width:20px;height:20px;' />
+		</div>
+		<div style='padding-left:20px;'(click)='sexual="woman"'>
+			女性
+		</div>
       </div>
       <div style="margin-top:40px;color:#888888;font-size: 12px;">
         预约人出生年份
       </div>
-      <div
-        style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 0px;">
-        <ion-select cancelText='取消' okText='确定' placeholder="请选择预约人出生年份" [(ngModel)]='birth'>
-          <ion-select-option *ngFor="let i of year" value="{{i}}">{{i}}</ion-select-option>
-        </ion-select>
+      <div style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 12px;">
+         <ion-input type='number' placeholder="请输入预约人出生年份，如1970" name='birth' [(ngModel)]='birth'></ion-input>
       </div>
       <div style="margin-top:40px;color:#888888;font-size: 12px;">
         预约人电话 <span style="color:red">必填</span>
       </div>
-      <div
-        style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 12px;">
-        <ion-input type='tel' placeholder="请输入联系号码" maxlength='11' [(ngModel)]='mobile'></ion-input>
-      </div>
-      <div style="margin-top:40px;color:#888888;font-size: 12px;">
-        留言
-      </div>
-      <div
-        style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 12px;">
-        <ion-textarea placeholder="请输入你需要预约的内容" rows='3' [(ngModel)]='memo'></ion-textarea>
+      <div style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 12px;">
+        <ion-input type='tel' placeholder="请输入联系号码" name='mobile' [(ngModel)]='mobile'></ion-input>
       </div>
 
 
@@ -137,7 +134,7 @@
     </div>
 
     <div style="margin-top:40px;">
-      <ion-button [disabled]='name.trim()==""||sexual==""' expand="full" color="primary"
+      <ion-button [disabled]='name.trim()==""||mobile==""' expand="full" color="primary"
         shape='round' (click)="submitorder()">提交预约</ion-button>
     </div>
   </div>
