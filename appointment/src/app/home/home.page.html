@@ -6,153 +6,113 @@
   </ion-toolbar>
 </ion-header>
 <ion-content padding>
-  <div style="height:calc( 100%  )" *ngIf="step==0">
-    <ion-slides pager style="height:100%">
-      <ion-slide *ngFor="let item of doctorlist">
-        <ion-card style="width:100%">
-          <ion-card-content>
-            <div style="text-align: center;display: flex">
-              <div style="flex:1"></div>
-              <img style="width:100px;height:100px;border-radius:50%" [src]='uploadpath+"doctor/"+item.photo' />
-              <div style="flex:1"></div>
-            </div>
-            <div style=" margin-top:20px;">{{item.name}}</div>
-            <div style="margin-top:10px;color:#888888;font-size: 12px;">
-              {{item.title}}
-            </div>
-            <div style=" margin-top:40px;height: 120px;overflow-y: scroll;">
-              <p *ngFor='let p of item.intro.split("\n")'>{{p}}</p>
-            </div>
-            <div style="margin-top:40px;">
-              <ion-button expand="full" color="primary" shape='round' (click)="selectdoctor(item.id)">选择医生</ion-button>
-            </div>
-          </ion-card-content>
-        </ion-card>
-      </ion-slide>
-    </ion-slides>
+  <div style="text-align: center;display: flex">
+    <div style="flex:1"></div>
+    <img style="width:100px;height:100px;border-radius:50%" [src]='uploadpath+"doctor/"+doctorlist[0].photo' />
+    <div style="flex:1"></div>
   </div>
-  <div *ngIf='step==1'>
-    <div>
-      <ion-button fill='clear' color="primary" (click)="step=0">&lt;&lt; 重新选择医生</ion-button>
+  <div style=" margin-top:20px;">{{doctorlist[0].name}}</div>
+  <div style="margin-top:10px;color:#888888;font-size: 12px;">
+    {{doctorlist[0].title}}
+  </div>
+  <div style=" margin-top:40px;">
+    <p *ngFor='let p of doctorlist[0].intro.split("\n")'>{{p}}</p>
+  </div>
+
+  <div class="padding no-padding-top" style="margin-top:30px;">
+
+    <div id="vkk"></div>
+    <div class="flex-row flex-center">
+      <div>
+        <ion-icon class="h4" name="ios-arrow-back" (click)="gotoMonth(-1)"></ion-icon>
+      </div>
+      <div class="flex-1" style="text-align: center;">{{currentYear}}年{{currentMonth+1}}月 </div>
+      <div>
+        <ion-icon class="h4" name="ios-arrow-forward" (click)="gotoMonth(1)"></ion-icon>
+      </div>
     </div>
+    <div class="flex-row " style="margin-top: 20px">
+      <div class="flex-1 daytitle bgsun">日</div>
+      <div class="flex-1 daytitle bgmon">一</div>
+      <div class="flex-1 daytitle bgmon">二</div>
+      <div class="flex-1 daytitle bgmon">三</div>
+      <div class="flex-1 daytitle bgmon">四</div>
+      <div class="flex-1 daytitle bgmon">五</div>
+      <div class="flex-1 daytitle bgsat">六</div>
+    </div>
+    <div class="flex-row" *ngFor="let week of calendar;">
+      <div class="flex-1 day day-today-{{day.today}} day-{{i}} dayin-{{day.furture}}  flex-row flex-center"
+        *ngFor="let day of week;let i=index;" (click)='selectdate(day)'>
 
-    <div class="padding no-padding-top" style="margin-top:10px;">
-
-      <div class="flex-row flex-center">
+        <div class="datenumber">{{day.date}}</div>
+        <div class="flex-1"></div>
         <div>
-          <ion-icon class="h4" name="ios-arrow-back" (click)="gotoMonth(-1)"></ion-icon>
+          <img src="{{uploadpath}}resource/{{res.choose}}" class="status-N" *ngIf="day.dayformat==date" />
         </div>
-        <div class="flex-1" style="text-align: center;">{{currentYear}}年{{currentMonth+1}}月 </div>
-        <div>
-          <ion-icon class="h4" name="ios-arrow-forward" (click)="gotoMonth(1)"></ion-icon>
-        </div>
+        <div class="flex-1"></div>
       </div>
-      <div class="flex-row " style="margin-top: 20px">
-        <div class="flex-1 daytitle bgsun">日</div>
-        <div class="flex-1 daytitle bgmon">一</div>
-        <div class="flex-1 daytitle bgmon">二</div>
-        <div class="flex-1 daytitle bgmon">三</div>
-        <div class="flex-1 daytitle bgmon">四</div>
-        <div class="flex-1 daytitle bgmon">五</div>
-        <div class="flex-1 daytitle bgsat">六</div>
-      </div>
-      <div class="flex-row" *ngFor="let week of calendar;">
-        <div class="flex-1 day day-today-{{day.today}} day-{{i}} dayin-{{day.furture}}  flex-row flex-center"
-          *ngFor="let day of week;let i=index;" (click)='selectdate(day)'>
-
-          <div class="datenumber">{{day.date}}</div>
-          <div class="flex-1"></div>
-          <div>
-            <img src="{{uploadpath}}resource/{{res.choose}}" class="status-N" *ngIf="day.dayformat==date" />
-          </div>
-          <div class="flex-1"></div>
-        </div>
-      </div>
-
     </div>
 
-
-
-    <div style="margin-top:20px;">
-      <ion-button expand="full" color="primary" shape='round' (click)="confirmdate()">选择日期</ion-button>
-    </div>
   </div>
-  <div *ngIf='step==2'>
-    <div>
-      <ion-button fill='clear' color="primary" (click)="step=1">&lt;&lt; 重新选择日期</ion-button>
+
+
+
+  <div>
+    <div style="margin-top:20px;font-size: 18px;">
+      完善预约信息
     </div>
 
-    <div>
-      <div style="margin-top:20px;font-size: 18px;">
-        完善预约信息
+    <div style="margin-top:40px;color:#888888;font-size: 12px;">
+      预约人姓名 <span style="color:red">必填</span>
+    </div>
+    <div
+      style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 12px;">
+      <ion-input placeholder="请输入预约人姓名" name='name' [(ngModel)]='name'></ion-input>
+    </div>
+    <div style="margin-top:40px;color:#888888;font-size: 12px;">
+      预约人性别
+    </div>
+    <div class='flex-row flex-center' style="margin-top:10px;">
+      <div (click)='sexual="man"'>
+        <img [src]='uploadpath+"resource/"+res.check' *ngIf='sexual=="man"' style='width:20px;height:20px;' />
+        <img [src]='uploadpath+"resource/"+res.uncheck' *ngIf='sexual=="woman"' style='width:20px;height:20px;' />
       </div>
-
-      <div style="margin-top:40px;color:#888888;font-size: 12px;">
-        预约人姓名 <span style="color:red">必填</span>
+      <div style='padding-left:20px;' (click)='sexual="man"'>
+        男性
       </div>
-      <div  style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 12px;">
-        <ion-input placeholder="请输入预约人姓名" name='name' [(ngModel)]='name'></ion-input>
+      <div style='margin-left:40px;' (click)='sexual="woman"'>
+        <img [src]='uploadpath+"resource/"+res.check' *ngIf='sexual=="woman"' style='width:20px;height:20px;' />
+        <img [src]='uploadpath+"resource/"+res.uncheck' *ngIf='sexual=="man"' style='width:20px;height:20px;' />
       </div>
-      <div style="margin-top:40px;color:#888888;font-size: 12px;">
-        预约人性别 
+      <div style='padding-left:20px;' (click)='sexual="woman"'>
+        女性
       </div>
-      <div class='flex-row flex-center'  style="margin-top:10px;">
-        <div (click)='sexual="man"'>
-			<img [src]='uploadpath+"resource/"+res.check' *ngIf='sexual=="man"' style='width:20px;height:20px;' />
-			<img [src]='uploadpath+"resource/"+res.uncheck' *ngIf='sexual=="woman"' style='width:20px;height:20px;' />
-		</div>
-		<div style='padding-left:20px;' (click)='sexual="man"'>
-			男性
-		</div>
-        <div  style='margin-left:40px;' (click)='sexual="woman"'>
-			<img [src]='uploadpath+"resource/"+res.check' *ngIf='sexual=="woman"' style='width:20px;height:20px;' />
-			<img [src]='uploadpath+"resource/"+res.uncheck' *ngIf='sexual=="man"' style='width:20px;height:20px;' />
-		</div>
-		<div style='padding-left:20px;'(click)='sexual="woman"'>
-			女性
-		</div>
-      </div>
-      <div style="margin-top:40px;color:#888888;font-size: 12px;">
-        预约人出生年份
-      </div>
-      <div style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 12px;">
-         <ion-input type='number' placeholder="请输入预约人出生年份，如1970" name='birth' [(ngModel)]='birth'></ion-input>
-      </div>
-      <div style="margin-top:40px;color:#888888;font-size: 12px;">
-        预约人电话 <span style="color:red">必填</span>
-      </div>
-      <div style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 12px;">
-        <ion-input type='tel' placeholder="请输入联系号码" name='mobile' [(ngModel)]='mobile'></ion-input>
-      </div>
-
-
-      <div style="margin-top:40px;color:#888888;font-size: 12px;">
-        <div>预约须知</div>
-        <p *ngFor='let p of InstInfo.orderneedknow.split("\n")'>{{p}}</p>
-      </div>
-
+    </div>
+    <div style="margin-top:40px;color:#888888;font-size: 12px;">
+      预约人出生年份
+    </div>
+    <div
+      style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 12px;">
+      <ion-input type='number' placeholder="请输入预约人出生年份，如1970" name='birth' [(ngModel)]='birth'></ion-input>
+    </div>
+    <div style="margin-top:40px;color:#888888;font-size: 12px;">
+      预约人电话 <span style="color:red">必填</span>
+    </div>
+    <div
+      style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 12px;">
+      <ion-input type='tel' placeholder="请输入联系号码" name='mobile' [(ngModel)]='mobile'></ion-input>
     </div>
 
-    <div style="margin-top:40px;">
-      <ion-button [disabled]='name.trim()==""||mobile==""' expand="full" color="primary"
-        shape='round' (click)="submitorder()">提交预约</ion-button>
+
+    <div style="margin-top:40px;color:#888888;font-size: 12px;">
+      <div>预约须知</div>
+      <p *ngFor='let p of InstInfo.orderneedknow.split("\n")'>{{p}}</p>
     </div>
+
   </div>
-  <div *ngIf="step==3"  style="height:100%;">
-    <div style="height:100%;" class="flex-row flex-center">
-      <div class="flex-1" style="height:100%;"></div>
-      <div style='text-align:center;max-width: 60vw;;'>
-        <div>
-          <img src="{{uploadpath}}resource/{{res.success}}" style="widht:30vw;"  />
-        </div>
-        <div style="margin-top:20px;">
-          <ion-button fill="clear" expand="full" color="primary" readonly='readonly'>预约成功</ion-button>
-        </div>
-        <div style="color:#888888;font-size: 12px;">
-          <p *ngFor='let p of InstInfo.successtips.split("\n")'>{{p}}</p>
-        </div>
-      </div>
-      <div class="flex-1"></div>
-    </div>
+
+  <div style="margin-top:40px;"  >
+    <ion-button expand="full" color="primary" shape='round' (click)="submitorder()">提交预约</ion-button>
   </div>
+
 </ion-content>

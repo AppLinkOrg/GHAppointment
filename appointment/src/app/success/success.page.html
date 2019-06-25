@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{InstInfo.name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div style="height:100%;" class="flex-row flex-center">
+        <div class="flex-1" style="height:100%;"></div>
+        <div style='text-align:center;max-width: 60vw;;'>
+          <div>
+            <img src="{{uploadpath}}resource/{{res.success}}" style="widht:30vw;" />
+          </div>
+          <div style="margin-top:20px;">
+            <ion-button fill="clear" expand="full" color="primary" readonly='readonly'>预约成功</ion-button>
+          </div>
+          <div style="color:#888888;font-size: 12px;">
+            <p *ngFor='let p of InstInfo.successtips.split("\n")'>{{p}}</p>
+          </div>
+        </div>
+        <div class="flex-1"></div>
+      </div>
+</ion-content>

@@ -40,7 +40,7 @@ export class AppUtil {
     
         var v= year + "-" + month + "-" + datec+" "+hour+":"+minute+":"+second;
     
-        console.log("FormatDateTime=" + v);
+        //console.log("FormatDateTime=" + v);
         return v;
       }
     

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { AppBase } from '../AppBase';
 import { Router } from '@angular/router';
 import {  ActivatedRoute, Params } from '@angular/router';
@@ -26,7 +26,8 @@ export class HomePage extends AppBase {
     public activeRoute: ActivatedRoute,
     public sanitizer: DomSanitizer,
     public getapi:GetApi,
-    public submitApi:SubmitApi
+    public submitApi:SubmitApi,
+    public elementRef:ElementRef
     ) {
     super(router, navCtrl, modalCtrl, toastCtrl, alertCtrl,activeRoute);
     
@@ -37,16 +38,6 @@ export class HomePage extends AppBase {
 
   onMyLoad(){
 
-    this.getapi.doctorlist({orderby:"seq"}).then((list)=>{
-      this.doctorlist=list;
-    });
-    this.currentMonth = (new Date()).getMonth();
-    this.currentYear = (new Date()).getFullYear();
-    this.loadCalendar();
-
-    for(var i=(new Date()).getFullYear();i>1900;i--){
-      //this.year.push(i);
-    }
   }
   
   step=0;
@@ -57,8 +48,23 @@ export class HomePage extends AppBase {
   sexual="man";
   mobile="";
   memo="";
-  doctorlist:[];
+  doctorlist:[{name:"",title:"",photo:"",intro:""}];
   onMyShow(){
+
+
+    this.getapi.doctorlist({orderby:"seq"}).then((list)=>{
+      this.doctorlist=list;
+      this.doctor_id=list[0].id;
+    });
+    this.currentMonth = (new Date()).getMonth();
+    this.currentYear = (new Date()).getFullYear();
+    this.loadCalendar();
+
+    for(var i=(new Date()).getFullYear();i>1900;i--){
+      //this.year.push(i);
+    }
+
+
   }
   selectdoctor(doctor_id){
     this.doctor_id=doctor_id;
@@ -123,7 +129,7 @@ export class HomePage extends AppBase {
     
     this.currentYear = target.getFullYear();
     this.currentMonth = target.getMonth();
-    this.loadCalendar();
+    //this.loadCalendar();
   }
 
   selectdate(d){
@@ -141,8 +147,21 @@ export class HomePage extends AppBase {
     this.step=2;
   }
   
-  submitorder(form){
-	  console.log(form);
+  submitorder(){
+    if(this.date==""){
+      var obj=this.elementRef.nativeElement.querySelector("#vkk");
+      obj.scrollIntoView(true);
+      this.showAlert("请选择预约日期");
+      return;
+    }
+    if(this.name==""){
+      this.showAlert("请选择预约人姓名");
+      return;
+    }
+    if(this.mobile==""){
+      this.showAlert("请选择预约人手机");
+      return;
+    }
     this.showConfirm("是否确认提交信息？",(e)=>{
       if(e==true){
         this.submitApi.submit({
@@ -154,7 +173,7 @@ export class HomePage extends AppBase {
           rolebirth:this.birth,
           sex:this.sexual
         }).then((res)=>{
-          this.step=3;
+          this.navigate("success");
         });
       }
     });
