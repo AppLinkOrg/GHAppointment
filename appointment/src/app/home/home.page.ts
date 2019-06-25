@@ -129,7 +129,7 @@ export class HomePage extends AppBase {
     
     this.currentYear = target.getFullYear();
     this.currentMonth = target.getMonth();
-    //this.loadCalendar();
+    this.loadCalendar();
   }
 
   selectdate(d){

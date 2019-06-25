@@ -1,0 +1,490 @@
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+    <meta charset="utf-8" />
+    <script src="jquery-2.2.3.min.js"></script>
+    <script src="api/api.config.js"></script>
+    <script src="api/content.js"></script>
+    <script src="api/example.js"></script>
+    <script src="api/get.js"></script>
+    <script src="api/inst.js"></script>
+    <script src="api/submit.js"></script>
+    <script src="api/member.js"></script>
+    <script src="api/wechat.js"></script>
+    <title>港和健康</title>
+    <style>
+        .daytitle {
+
+            color: white;
+            text-align: center;
+        }
+
+        .bgsun {
+            background: gray;
+        }
+
+        .bgmon {
+            background: gray;
+        }
+
+        .bgsat {
+            background: gray;
+        }
+
+        .day-0 {}
+
+        .day-6 {}
+
+        .day {
+            font-size: 12px;
+            height: 65px;
+        }
+
+        .day-today-Y {}
+
+        .dayin-Y {}
+
+        .dayin-N {
+            background: #cccccc;
+            color: #888888;
+        }
+
+        .status-N {
+            width: 20px;
+            margin-top: 15px;
+        }
+
+        .status-Y {
+            width: 18px;
+        }
+
+        .datenumber {
+            position: absolute;
+            margin-top: -20px;
+            margin-left: 10px;
+            font-size: 12px;
+        }
+
+        .superv {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        input {
+            background: transparent;
+            border: 0px;
+            width: 100%;
+        }
+
+
+
+
+        .flex-row {
+            display: flex;
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+
+        .flex-center {
+            align-content: center;
+            align-items: center;
+        }
+
+        .flex-column {
+            align-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .column {
+            align-content: center;
+            flex-direction: column;
+        }
+
+        .flex-bottom {
+            align-content: baseline;
+            align-items: baseline;
+        }
+
+        .flex-1 {
+            flex: 1;
+        }
+
+        .btn {
+            background: #1296db;
+            border-radius: 20px;
+            text-align: center;
+            padding: 10px;
+            color: white;
+            font-weight: bolder;
+        }
+    </style>
+</head>
+
+<body style="padding:20px;">
+
+    <div id='fa'>
+
+        <div style="text-align: center;display: flex">
+            <div style="flex:1"></div>
+            <img style="width:100px;height:100px;border-radius:50%" id="doctorphoto" />
+            <div style="flex:1"></div>
+        </div>
+        <div style=" margin-top:20px;" id="doctorname"></div>
+        <div style="margin-top:10px;color:#888888;font-size: 12px;" id="doctortitle"></div>
+        <div style=" margin-top:40px;" id="doctorintro"></div>
+
+        <div class="padding no-padding-top" style="margin-top:30px;">
+
+            <div id="vkk"></div>
+            <div class="flex-row flex-center">
+                <div onclick="gotoMonth(-1)">&lt;</div>
+                <div class="flex-1" style="text-align: center;" id="ym"> </div>
+                <div onclick="gotoMonth(1)">&gt;</div>
+            </div>
+            <div class="flex-row " style="margin-top: 20px">
+                <div class="flex-1 daytitle bgsun">日</div>
+                <div class="flex-1 daytitle bgmon">一</div>
+                <div class="flex-1 daytitle bgmon">二</div>
+                <div class="flex-1 daytitle bgmon">三</div>
+                <div class="flex-1 daytitle bgmon">四</div>
+                <div class="flex-1 daytitle bgmon">五</div>
+                <div class="flex-1 daytitle bgsat">六</div>
+            </div>
+            <div id="cand">
+
+
+            </div>
+        </div>
+
+
+
+        <div>
+            <div style="margin-top:20px;font-size: 18px;">
+                完善预约信息
+            </div>
+
+            <div style="margin-top:40px;color:#888888;font-size: 12px;">
+                预约人姓名 <span style="color:red">必填</span>
+            </div>
+            <div
+                style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 12px;">
+                <input placeholder="请输入预约人姓名" name='name' id="name" />
+            </div>
+            <div style="margin-top:40px;color:#888888;font-size: 12px;">
+                预约人性别
+            </div>
+            <div class='flex-row flex-center' style="margin-top:10px;">
+                <div onclick='showSexual("man")'>
+                    <img id="man_s"
+                        src='http://applinkupload.oss-cn-shenzhen.aliyuncs.com/alucard263096/reservation/resource/3170e3e98a3e554e5ece6b42bb4c89dd_19062412057_785202342.png'
+                        style='width:20px;height:20px;' />
+                    <img id="man_c"
+                        src='http://applinkupload.oss-cn-shenzhen.aliyuncs.com/alucard263096/reservation/resource/2bc2d4134182c4117b3baa6e9cddcc9c_19062412007_1167638137.png'
+                        style='width:20px;height:20px;' />
+                </div>
+                <div style='padding-left:20px;' onclick='showSexual("man")'>
+                    男性
+                </div>
+                <div style='margin-left:40px;' onclick='showSexual("woman")'>
+                    <img id="woman_s"
+                        src='http://applinkupload.oss-cn-shenzhen.aliyuncs.com/alucard263096/reservation/resource/3170e3e98a3e554e5ece6b42bb4c89dd_19062412057_785202342.png'
+                        style='width:20px;height:20px;' />
+                    <img id="woman_c"
+                        src='http://applinkupload.oss-cn-shenzhen.aliyuncs.com/alucard263096/reservation/resource/2bc2d4134182c4117b3baa6e9cddcc9c_19062412007_1167638137.png'
+                        style='width:20px;height:20px;' />
+                </div>
+                <div style='padding-left:20px;' onclick='showSexual("woman")'>
+                    女性
+                </div>
+            </div>
+            <div style="margin-top:40px;color:#888888;font-size: 12px;">
+                预约人出生年份
+            </div>
+            <div
+                style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 12px;">
+                <input type='number' placeholder="请输入预约人出生年份，如1970" name='birth' id="birth" />
+            </div>
+            <div style="margin-top:40px;color:#888888;font-size: 12px;">
+                预约人电话 <span style="color:red">必填</span>
+            </div>
+            <div
+                style="margin-top:10px;border:1px rgba(211,211,211,0.7) solid;border-radius: 5px;padding:5px;padding-left: 12px;">
+                <input type='tel' placeholder="请输入联系号码" name='mobile' id="name" />
+            </div>
+
+
+            <div style="margin-top:40px;color:#888888;font-size: 12px;">
+                <div>预约须知</div>
+                <div id="orderneedknow" style="margin-top: 10px;"></div>
+            </div>
+
+        </div>
+
+        <div style="margin-top:40px;">
+            <div class="btn" onclick="submitorder()">提交预约</div>
+        </div>
+
+    </div>
+
+    <div id="fs">
+        <div style="height:100%;" class="flex-row flex-center">
+            <div class="flex-1" style="height:100%;"></div>
+            <div style='text-align:center;max-width: 60vw;;'>
+                <div>
+                    <img src="http://applinkupload.oss-cn-shenzhen.aliyuncs.com/alucard263096/reservation/resource/caf8f2ca6b197127633679a328d91ae0_19062313036_279317971.png"
+                        style="widht:30vw;" />
+                </div>
+                <div style="margin-top:20px;">
+                    预约成功
+                </div>
+                <div style="color:#888888;font-size: 12px;margin-top:10px;" id="successtips">
+                </div>
+            </div>
+            <div class="flex-1"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+    sexual = "";
+
+    function submitorder() {
+
+
+
+
+        if (date == "") {
+            var obj = window.document.getElementById("vkk");
+            obj.scrollIntoView(true);
+            alert("请选择预约日期");
+            return;
+        }
+        var name=$("#name").val();
+        var mobile=$("#mobile").val();
+        var birth=$("#mobile").val();
+        if (name == "") {
+            alert("请选择预约人姓名");
+            return;
+        }
+        if (mobile == "") {
+            alert("请选择预约人手机");
+            return;
+        }
+        if (confirm("是否确认提交信息？")) {
+            //alert(1);
+            var submitApi=new SubmitApi();
+            submitApi.submit({
+                  doctor_id:doctor_id,
+                  appointmentdate:date,
+                  content:"",
+                  rolename:name,
+                  rolemobile:mobile,
+                  rolebirth:birth,
+                  sex:sexual
+                },()=>{
+                    $("#fa").hide();
+                    $("#fs").show();
+                });
+        }
+    }
+
+    function showSexual(sexual) {
+        sexual = sexual;
+        if (sexual == "man") {
+            $("#man_s").show();
+            $("#man_c").hide();
+            $("#woman_s").hide();
+            $("#woman_c").show();
+        } else {
+            $("#woman_s").show();
+            $("#woman_c").hide();
+            $("#man_s").hide();
+            $("#man_c").show();
+        }
+    }
+
+
+    currentYear = 0;
+    currentMonth = 0;
+    doctor_id=0;
+
+    function loadCalendar() {
+        var monthfirst = (new Date(currentYear, currentMonth, 1));
+        var monthend = (new Date(currentYear, currentMonth + 1, 0));
+
+        var today = (new Date());
+        today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+        var first = monthfirst.getDay();
+
+        var daytimecount = 24 * 3600 * 1000;
+
+        var startday = (new Date(monthfirst.getTime() - first * daytimecount));
+
+        var canarr = [];
+        for (var i = 0; i < 6; i++) {
+            var a = [];
+            var allover = false;
+            for (var j = 0; j < 7; j++) {
+                var d = (new Date(startday.getTime() + (7 * i) * daytimecount + j * daytimecount));
+
+                //var isover = d.getTime() < monthfirst.getTime() || d.getTime() > monthend.getTime() ? "Y" : "N";
+                var isover = d.getTime() < monthfirst.getTime() ? "Y" : "N";
+                a.push({
+                    isover: isover,
+                    furture: d.getTime() > today.getTime() ? "Y" : "N",
+                    today: d.getTime() == today.getTime() ? "Y" : "N",
+                    year: d.getFullYear(),
+                    month: d.getMonth(),
+                    date: d.getDate(),
+                    dayformat: FormatDate(FormatDateTime(d))
+                });
+
+                if (isover == "N") {
+                    allover = true;
+                }
+
+            }
+            if (allover) {
+                canarr.push(a);
+            }
+        }
+        calendar = canarr;
+        displaycalendar();
+    }
+
+    function displaycalendar() {
+        $("#ym").text(currentYear + "年" + (currentMonth + 1).toString() + "月");
+
+
+        // 
+        //         
+
+        //             
+        //             
+        //             
+        //                 <img src="{{uploadpath}}resource/{{res.choose}}" class="status-N" *ngIf="day.dayformat==date" />
+        //             </div>
+        //             <div class="flex-1"></div>
+        //         </div>
+        //     </div>
+        var htmlstr = [];
+        for (var week of calendar) {
+            htmlstr.push('<div class="flex-row"  >');
+            for (var i = 0; i < week.length; i++) {
+                var day = week[i];
+                htmlstr.push('<div class="flex-1 day day-today-' + day.today + ' day-' + i + ' dayin-' + day.furture +
+                    '  flex-row flex-center" onclick="selectdate(\'' + day.dayformat + '\',\'' + day.furture +
+                    '\')" >');
+                htmlstr.push('<div class="datenumber">' + day.date + '</div>');
+                htmlstr.push('<div class="flex-1"></div>');
+                htmlstr.push('<div class="ischeck" id="vd_' + day.dayformat + '"></div>');
+                htmlstr.push('<div class="flex-1"></div>');
+                htmlstr.push('</div>');
+            }
+            htmlstr.push('</div>');
+        }
+
+        $("#cand").html(htmlstr.join("\n"));
+    }
+
+    function gotoMonth(am) {
+        var today = (new Date());
+        var target = new Date(currentYear, currentMonth + am, 1);
+
+        currentYear = target.getFullYear();
+        currentMonth = target.getMonth();
+        loadCalendar();
+    }
+
+    date = "";
+
+    function selectdate(dayformat, furture) {
+        if (furture == 'N') {
+            return;
+        }
+        date = dayformat;
+
+        $(".ischeck").html("");
+        $("#vd_" + dayformat).html(
+            '<img src="http://applinkupload.oss-cn-shenzhen.aliyuncs.com/alucard263096/reservation/resource/91dfeff9a53ce97cc25fd42d8c31264c_19062312000_1733467923.png" class="status-N" />'
+            );
+
+    }
+    //
+
+    $(document).ready(function () {
+        var getapi = new GittApi();
+        getapi.doctorlist({}, (ret) => {
+            var doctorlist = JSON.parse(ret);
+            var doctor = doctorlist[0];
+            $("#doctorphoto").attr("src",
+                "http://applinkupload.oss-cn-shenzhen.aliyuncs.com/alucard263096/reservation/doctor/" +
+                doctor.photo);
+            $("#doctorname").text(doctor.name);
+            $("#doctorintro").html(doctor.intro.split("\n").join("<br />"));
+            $("#doctortitle").text(doctor.title);
+            doctor_id=doctor.id;
+        });
+        var instapi = new InstApi();
+        instapi.info({
+            unicode: "yyc"
+        }, (ret) => {
+            var InstInfo = JSON.parse(ret);
+            $("#successtips").html(InstInfo.successtips.split("\n").join("<br />"));
+            $("#orderneedknow").html(InstInfo.orderneedknow.split("\n").join("<br />"));
+        });
+        showSexual("man");
+
+
+        currentMonth = (new Date()).getMonth();
+        currentYear = (new Date()).getFullYear();
+        loadCalendar();
+
+        $("#fs").hide();
+    });
+
+
+
+    function FormatDateTime(date) {
+        console.log("FormatDateTime" + date);
+        var year = ten2(date.getFullYear());
+        var month = ten2(date.getMonth() + 1);
+        var datec = ten2(date.getDate());
+        var hour = ten2(date.getHours());
+        var minute = ten2(date.getMinutes());
+        var second = ten2(date.getSeconds());
+
+        var v = year + "-" + month + "-" + datec + " " + hour + ":" + minute + ":" + second;
+
+        //console.log("FormatDateTime=" + v);
+        return v;
+    }
+
+    function ten2(i) {
+        i = parseInt(i);
+        if (i > 9) {
+            return i.toString();
+        } else {
+            return "0" + i.toString();
+        }
+    }
+
+    function FormatDate(val) {
+        return val.substr(0, 10);
+    }
+</script>
